@@ -28,8 +28,8 @@ class TfliteService {
       }
 
       // Load the model with options
-      _interpreter =
-          await Interpreter.fromAsset('assets/model.tflite', options: options);
+      _interpreter = await Interpreter.fromAsset('assets/model_comp.tflite',
+          options: options);
 
       // Load the labels
       final labelsData = await rootBundle.loadString('assets/labels.txt');
