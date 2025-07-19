@@ -30,7 +30,24 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
+    }
+
+    packagingOptions {
+        pickFirst("**/libc++_shared.so")
+        pickFirst("**/libjsc.so")
+        pickFirst("**/libtensorflowlite_jni.so")
+        pickFirst("**/libtensorflowlite_gpu_jni.so")
     }
 }
 
@@ -39,7 +56,15 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:21.0.1") // Firebase Authentication
     implementation("com.google.firebase:firebase-firestore:24.0.0") // Firebase Firestore
     implementation("com.google.firebase:firebase-messaging:23.0.0") // Firebase Messaging (Optional)
-    implementation ("com.google.android.gms:play-services-tflite-gpu:16.1.0")
+    
+    // TensorFlow Lite dependencies
+    implementation("org.tensorflow:tensorflow-lite:2.13.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.13.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+    
+    // Google Play Services TensorFlow Lite (Alternative to direct TF Lite)
+    // implementation("com.google.android.gms:play-services-tflite-gpu:16.1.0")
+    
     // Add other Firebase dependencies as needed
 }
 
