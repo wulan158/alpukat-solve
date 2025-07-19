@@ -13,9 +13,9 @@ import 'firebase_options.dart'; // Diaktifkan kembali
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Inisialisasi Firebase diaktifkan kembali
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
@@ -66,10 +66,13 @@ class MyApp extends StatelessWidget {
     const Color secondaryColor = Color(0xFF66BB6A); // Green 400
 
     final TextTheme appTextTheme = TextTheme(
-      displayLarge: GoogleFonts.montserrat(fontSize: 48, fontWeight: FontWeight.bold),
-      titleLarge: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.w600),
+      displayLarge:
+          GoogleFonts.montserrat(fontSize: 48, fontWeight: FontWeight.bold),
+      titleLarge:
+          GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.w600),
       bodyMedium: GoogleFonts.roboto(fontSize: 14, height: 1.5),
-      labelLarge: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+      labelLarge:
+          GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
     );
 
     final ThemeData lightTheme = ThemeData(
@@ -87,7 +90,8 @@ class MyApp extends StatelessWidget {
       appBarTheme: AppBarTheme(
         backgroundColor: primarySeedColor,
         foregroundColor: Colors.white,
-        titleTextStyle: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
+        titleTextStyle:
+            GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
         centerTitle: true,
         elevation: 2,
       ),
@@ -95,9 +99,11 @@ class MyApp extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: primarySeedColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          textStyle: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+          textStyle:
+              GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -132,16 +138,19 @@ class MyApp extends StatelessWidget {
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.grey[900],
         foregroundColor: Colors.white,
-        titleTextStyle: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
+        titleTextStyle:
+            GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
         centerTitle: true,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: secondaryColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          textStyle: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+          textStyle:
+              GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -178,7 +187,7 @@ class MyApp extends StatelessWidget {
 }
 
 class ScaffoldWithNavBar extends StatelessWidget {
-  const ScaffoldWithNavBar({ required this.child, super.key });
+  const ScaffoldWithNavBar({required this.child, super.key});
   final Widget child;
 
   @override

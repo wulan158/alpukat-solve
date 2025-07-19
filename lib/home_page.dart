@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   File? _image;
   final ImagePicker _picker = ImagePicker();
   final TfliteService _tfliteService = TfliteService();
-  
+
   String _classificationResult = '';
   double _probability = 0.0;
   bool _isClassifying = false;
@@ -26,7 +26,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _tfliteService.loadModel();
+    try {
+      _tfliteService.loadModel();
+    } catch (e) {
+      print("Error loading model: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal memuat model: $e')),
+      );
+    }
   }
 
   @override
@@ -73,7 +80,9 @@ class _HomePageState extends State<HomePage> {
   Future<void> _saveClassification() async {
     if (_image == null || _classificationResult.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tidak ada gambar atau hasil klasifikasi untuk disimpan.')),
+        const SnackBar(
+            content: Text(
+                'Tidak ada gambar atau hasil klasifikasi untuk disimpan.')),
       );
       return;
     }
@@ -84,7 +93,9 @@ class _HomePageState extends State<HomePage> {
 
     try {
       // Upload image to Firebase Storage
-      final storageRef = FirebaseStorage.instance.ref().child('leaf_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('leaf_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
       await storageRef.putFile(_image!);
       _imageUrl = await storageRef.getDownloadURL();
 
@@ -177,7 +188,8 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: () => _pickImage(ImageSource.gallery),
-                  icon: const Icon(Icons.photo_library, size: 24), // Ikon standar
+                  icon:
+                      const Icon(Icons.photo_library, size: 24), // Ikon standar
                   label: const Text('Pilih dari Galeri'),
                 ),
               ] else if (_isClassifying) ...[
@@ -192,7 +204,8 @@ class _HomePageState extends State<HomePage> {
                 // Result State
                 Text(
                   'Hasil Klasifikasi',
-                  style: textTheme.titleLarge?.copyWith(color: theme.colorScheme.primary),
+                  style: textTheme.titleLarge
+                      ?.copyWith(color: theme.colorScheme.primary),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -240,7 +253,8 @@ class _HomePageState extends State<HomePage> {
                   icon: const Icon(Icons.save_alt), // Ikon standar
                   label: const Text('Simpan ke Riwayat'),
                   style: theme.elevatedButtonTheme.style?.copyWith(
-                    backgroundColor: MaterialStateProperty.all(theme.colorScheme.secondary),
+                    backgroundColor:
+                        MaterialStateProperty.all(theme.colorScheme.secondary),
                   ),
                 ),
                 const SizedBox(height: 16),
