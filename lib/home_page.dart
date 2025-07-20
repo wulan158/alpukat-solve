@@ -60,10 +60,15 @@ class _HomePageState extends State<HomePage> {
     try {
       final result = await _tfliteService.classifyImage(imageBytes);
       setState(() {
-        _classificationResult = result.keys.first;
+        _classificationResult = result.keys.first.trim(); // 🔧 TRIM result!
         _probability = result.values.first;
         _isClassifying = false;
       });
+
+      // DEBUG: Print classification result
+      print("🎯 _classificationResult: '$_classificationResult'");
+      print("📊 _probability: $_probability");
+      print("🔍 Description: '${_getDescription(_classificationResult)}'");
     } catch (e) {
       print("Error classifying image: $e");
       setState(() {
@@ -125,16 +130,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   String _getDescription(String result) {
-    // Dummy descriptions based on classification result
-    switch (result) {
-      case 'Alpukat Mentega':
-        return 'Alpukat dengan tekstur creamy dan rasa gurih.';
-      case 'Alpukat Hass':
-        return 'Varietas populer dengan kulit keriput dan daging hijau gelap.';
-      case 'Alpukat Kendil':
-        return 'Alpukat lokal dengan ukuran besar dan daging tebal.';
+    // 🔧 TRIM input untuk konsistensi
+    final cleanResult = result.trim();
+    print("🔎 Getting description for: '$cleanResult'");
+    print("🔎 String length: ${cleanResult.length}");
+    print("🔎 String bytes: ${cleanResult.codeUnits}");
+
+    switch (cleanResult) {
+      case 'Alpukat_Aligator':
+        print("✅ Matched: Alpukat_Aligator");
+        return 'Alpukat Aligator memiliki kulit bergelombang seperti kulit buaya, dengan daging buah yang creamy dan rasa yang khas.';
+      case 'Alpukat_Kendil':
+        print("✅ Matched: Alpukat_Kendil");
+        return 'Alpukat Kendil berbentuk lonjong seperti kendil, ukuran besar dengan daging tebal dan tekstur lembut.';
+      case 'Alpukat_Madu':
+        print("✅ Matched: Alpukat_Madu");
+        return 'Alpukat Madu memiliki rasa manis seperti madu dengan tekstur lembut dan creamy, cocok untuk jus.';
+      case 'Alpukat_SW01':
+        print("✅ Matched: Alpukat_SW01");
+        return 'Alpukat SW01 adalah varietas unggul dengan produktivitas tinggi, daging tebal, dan rasa yang gurih.';
+      case 'Alpukat_Super':
+        print("✅ Matched: Alpukat_Super");
+        return 'Alpukat Super memiliki ukuran yang besar dengan kualitas daging buah yang sangat baik dan rasa yang lezat.';
       default:
-        return 'Deskripsi belum tersedia.';
+        print("❌ No match found for: '$cleanResult'");
+        return 'Deskripsi belum tersedia untuk jenis alpukat ini.';
     }
   }
 
@@ -196,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                 const Center(child: CircularProgressIndicator()),
                 const SizedBox(height: 20),
                 Text(
-                  'Sedang mengklasifikasi...',
+                  'Sedang Memproses...',
                   textAlign: TextAlign.center,
                   style: textTheme.titleMedium,
                 ),
