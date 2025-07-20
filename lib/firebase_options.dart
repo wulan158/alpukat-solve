@@ -50,19 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB6sk3LU-VrHrJy8YejhGnrd1qjwncdZT8',
-    appId: '1:49039912640:web:cdba3d42d2ef22aad00725',
-    messagingSenderId: '49039912640',
-    projectId: 'alpukat998876',
-    authDomain: 'alpukat998876.firebaseapp.com',
-    storageBucket: 'alpukat998876.firebasestorage.app',
+    apiKey: 'AIzaSyAhORnK-Y4Sggmtvo_Pb7QhyXw9FRfVYkc',
+    appId: '1:888198544533:web:1a9e395c4fbf38bbb0ef9c',
+    messagingSenderId: '888198544533',
+    projectId: 'cobaalpukat',
+    authDomain: 'cobaalpukat.firebaseapp.com',
+    storageBucket: 'cobaalpukat.firebasestorage.app',
+    measurementId: 'G-R2ZH514V75',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCkuMPn5U4hXUQvoJPDHRS9yGVvXnGx8lU',
-    appId: '1:49039912640:android:b82efaa3c8bbe736d00725',
-    messagingSenderId: '49039912640',
-    projectId: 'alpukat998876',
-    storageBucket: 'alpukat998876.firebasestorage.app',
+    apiKey: 'AIzaSyDgHXCLgBCDLUKGio7dML6pJpfWY2NplA8',
+    appId: '1:888198544533:android:b308a534629e7515b0ef9c',
+    messagingSenderId: '888198544533',
+    projectId: 'cobaalpukat',
+    storageBucket: 'cobaalpukat.firebasestorage.app',
   );
+
 }

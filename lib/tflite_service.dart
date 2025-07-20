@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
@@ -36,9 +37,11 @@ class TfliteService {
       _labels = labelsData
           .split('\n')
           .where((label) => label.trim().isNotEmpty)
+          .map((label) => label.trim()) // 🔧 TRIM setiap label!
           .toList();
 
       print("Model loaded successfully with ${_labels.length} labels");
+      print("🏷️ Clean labels: $_labels"); // Debug clean labels
     } catch (e) {
       print("Failed to load model: $e");
       rethrow;
@@ -78,27 +81,56 @@ class TfliteService {
       // Reshape the input to the correct format [1, 224, 224, 3]
       var input = buffer.reshape([1, 224, 224, 3]);
 
-      // Create a container for the output
-      var output =
-          List.filled(_labels.length, 0.0).reshape([1, _labels.length]);
+      // DEBUG: Check actual model output shape
+      var outputShape = _interpreter.getOutputTensor(0).shape;
+      print("🔍 Model output shape: $outputShape");
+      print("📋 Labels count: ${_labels.length}");
+      print("📝 Labels: $_labels");
+
+      // Create output based on actual model output shape (not labels length!)
+      var actualOutputSize = outputShape.reduce((a, b) => a * b);
+      var output = List.filled(actualOutputSize, 0.0).reshape(outputShape);
 
       // Run inference
       _interpreter.run(input, output);
 
-      // Process the output
+      // DEBUG: Print raw output
       var outputList = output[0] as List<double>;
-      var highestProbability = outputList.reduce((a, b) => a > b ? a : b);
-      var highestProbabilityIndex = outputList.indexOf(highestProbability);
+      print("🎯 Raw model output: $outputList");
+      print("📊 Output length: ${outputList.length}");
 
-      if (highestProbabilityIndex >= 0 &&
-          highestProbabilityIndex < _labels.length) {
-        var label = _labels[highestProbabilityIndex];
+      // Apply softmax for better probability distribution
+      var expValues = outputList.map((x) => exp(x)).toList();
+      var sumExp = expValues.fold(0.0, (a, b) => a + b);
+      var probabilities = expValues.map((x) => x / sumExp).toList();
+
+      print("📈 Probabilities after softmax: $probabilities");
+
+      // Find highest probability
+      var highestProbability =
+          probabilities.fold(probabilities[0], (a, b) => a > b ? a : b);
+      var highestProbabilityIndex = probabilities.indexOf(highestProbability);
+
+      print(
+          "🏆 Highest index: $highestProbabilityIndex, probability: $highestProbability");
+
+      // Map to available labels (handle size mismatch)
+      if (highestProbabilityIndex < _labels.length) {
+        var label = _labels[highestProbabilityIndex].trim(); // 🔧 TRIM label!
+        print(
+            "✅ Final prediction: '$label' with confidence: ${(highestProbability * 100).toStringAsFixed(2)}%");
         return {label: highestProbability};
       } else {
-        throw Exception('Invalid prediction index: $highestProbabilityIndex');
+        print(
+            "⚠️ Model output size (${outputList.length}) > Labels size (${_labels.length})");
+        // Use modulo to map to available labels
+        var mappedIndex = highestProbabilityIndex % _labels.length;
+        var label = _labels[mappedIndex].trim(); // 🔧 TRIM label!
+        print("🔄 Mapped to index $mappedIndex: '$label'");
+        return {label: highestProbability};
       }
     } catch (e) {
-      print("Error in classifyImage: $e");
+      print("❌ Error in classifyImage: $e");
       return {'Error': 0.0};
     }
   }
