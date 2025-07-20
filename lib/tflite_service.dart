@@ -103,22 +103,26 @@ class TfliteService {
       var expValues = outputList.map((x) => exp(x)).toList();
       var sumExp = expValues.fold(0.0, (a, b) => a + b);
       var probabilities = expValues.map((x) => x / sumExp).toList();
-      
+
       print("📈 Probabilities after softmax: $probabilities");
 
       // Find highest probability
-      var highestProbability = probabilities.fold(probabilities[0], (a, b) => a > b ? a : b);
+      var highestProbability =
+          probabilities.fold(probabilities[0], (a, b) => a > b ? a : b);
       var highestProbabilityIndex = probabilities.indexOf(highestProbability);
 
-      print("🏆 Highest index: $highestProbabilityIndex, probability: $highestProbability");
+      print(
+          "🏆 Highest index: $highestProbabilityIndex, probability: $highestProbability");
 
       // Map to available labels (handle size mismatch)
       if (highestProbabilityIndex < _labels.length) {
         var label = _labels[highestProbabilityIndex].trim(); // 🔧 TRIM label!
-        print("✅ Final prediction: '$label' with confidence: ${(highestProbability * 100).toStringAsFixed(2)}%");
+        print(
+            "✅ Final prediction: '$label' with confidence: ${(highestProbability * 100).toStringAsFixed(2)}%");
         return {label: highestProbability};
       } else {
-        print("⚠️ Model output size (${outputList.length}) > Labels size (${_labels.length})");
+        print(
+            "⚠️ Model output size (${outputList.length}) > Labels size (${_labels.length})");
         // Use modulo to map to available labels
         var mappedIndex = highestProbabilityIndex % _labels.length;
         var label = _labels[mappedIndex].trim(); // 🔧 TRIM label!
