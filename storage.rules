@@ -1,0 +1,28 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Allow public read/write for leaf_images folder (development mode)
+    match /leaf_images/{imageId} {
+      // Allow read untuk semua
+      allow read: if true;
+      
+      // Allow upload file image dengan size < 10MB (no auth required)
+      allow create: if isValidImageUpload();
+      
+      // Allow delete (no auth required for development)
+      allow delete: if true;
+    }
+    
+    // Block semua folder lainnya
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+  
+  // Helper functions
+  function isValidImageUpload() {
+    return request.resource != null
+           && request.resource.size < 10 * 1024 * 1024  // Max 10MB
+           && request.resource.contentType.matches('image/.*');
+  }
+}

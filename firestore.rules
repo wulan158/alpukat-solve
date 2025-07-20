@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // History collection - allow public access for development
+    match /history/{document} {
+      // Allow read untuk semua user (no auth required)
+      allow read: if true;
+      
+      // Allow write dengan validasi data (no auth required for development)
+      allow create: if isValidHistoryData(request.resource.data);
+      
+      // Allow update/delete 
+      allow update, delete: if true;
+    }
+    
+    // Block semua collection lainnya
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+  
+  // Helper function untuk validasi data
+  function isValidHistoryData(data) {
+    return data != null
+           && data.keys().hasAll(['image_url', 'name', 'description', 'timestamp'])
+           && data.image_url is string
+           && data.name is string 
+           && data.description is string
+           && data.timestamp is timestamp;
+  }
+}

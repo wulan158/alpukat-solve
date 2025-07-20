@@ -2,21 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:myapp/theme_provider.dart';
 import 'package:myapp/home_page.dart';
 import 'package:myapp/history_page.dart';
 import 'package:myapp/settings_page.dart';
 import 'package:myapp/splash_screen.dart';
-// import 'firebase_options.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Inisialisasi Firebase
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    print('FIREBASE initialization error: $e');
+  }
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "49039912640",
-    "project_id": "alpukat998876",
-    "storage_bucket": "alpukat998876.firebasestorage.app"
+    "project_number": "888198544533",
+    "project_id": "cobaalpukat",
+    "storage_bucket": "cobaalpukat.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:49039912640:android:b82efaa3c8bbe736d00725",
+        "mobilesdk_app_id": "1:888198544533:android:b308a534629e7515b0ef9c",
         "android_client_info": {
           "package_name": "com.example.myapp"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCkuMPn5U4hXUQvoJPDHRS9yGVvXnGx8lU"
+          "current_key": "AIzaSyDgHXCLgBCDLUKGio7dML6pJpfWY2NplA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888198544533:android:0f390f6637e7e7afb0ef9c",
+        "android_client_info": {
+          "package_name": "com.example.myapp.coba_alpukat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgHXCLgBCDLUKGio7dML6pJpfWY2NplA8"
         }
       ],
       "services": {

@@ -10,10 +10,10 @@ dependencies:
     sdk: flutter
   
   # Firebase
-  firebase_core: ^3.15.0
-  cloud_firestore: ^5.1.0 # For database
-  firebase_storage: ^12.1.0 # For image storage
-  firebase_ai: ^0.1.0
+  firebase_core: ^3.15.1
+  cloud_firestore: ^5.1.0
+  firebase_storage: ^12.1.0 
+  firebase_ai: ^2.2.1
 
   # UI & State Management
   cupertino_icons: ^1.0.8
